@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+
+# Données brutes (ModelNet10 dans data/) et données préparées
+data/bed/
+data/chair/
+data/sofa/
+data/table/
+data/raw/
+data/processed/
+
+# Fichiers 3D, données lourdes, checkpoints et rendus volumineux
+*.off
+*.npy
+*.npz
+*.ply
+*.splat
+*.obj
+*.h5
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.mp4
+*.avi
+*.mov
+*.zip
+*.tar
+*.tar.gz
+
+# Système & éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
