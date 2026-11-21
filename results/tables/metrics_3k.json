@@ -1,0 +1,23 @@
+﻿{
+  "dataset": {
+    "num_images": 9,
+    "resolutions": ["960x1280", "1280x960", "3120x4160"],
+    "single_camera": false,
+    "camera_model": "SIMPLE_PINHOLE"
+  },
+  "colmap_sfm": {
+    "connected_images": 9,
+    "initial_pair": [7, 8],
+    "final_bundle_adjustment_cost_px": 2.20133,
+    "initial_points3d": 113
+  },
+  "gaussian_splatting": {
+    "gpu": "NVIDIA Tesla T4",
+    "vram_target_max_gb": 12.0,
+    "resolution_factor": 4,
+    "iterations": 3000,
+    "final_loss": 0.0105611,
+    "ply_size_human": "5.1M",
+    "rendered_train_views": ["00000.png", "00001.png"]
+  }
+}
