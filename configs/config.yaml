@@ -1,0 +1,68 @@
+# Configuration globale du Projet 6 : Génération et Reconstruction 3D
+project:
+  name: "projet-3d-gen-splatting"
+  authors:
+    - "Wiame El Hadraoui"
+    - "Douae Benabou"
+  hardware:
+    platform: "Google Colab"
+    gpu: "NVIDIA Tesla T4"
+    max_vram_gb: 12
+    cuda_version: "13.0"
+    torch_cuda_arch_list: "7.5"
+
+# Partie 1 : Génération de formes 3D simples (PointNetAE)
+generation_3d:
+  model_name: "PointNetAE"
+  dataset:
+    source: "ModelNet10 / ShapeNetCore (subset)"
+    raw_dir: "data/"
+    processed_dir: "data/processed/"
+    categories: ["bed", "chair", "sofa", "table"]
+    num_points: 1024
+    normalize: true
+  architecture:
+    latent_dim: 256
+    encoder: "PointNet (Conv1D + BatchNorm + ReLU + MaxPool)"
+    decoder: "MLP (Fully Connected)"
+  training:
+    loss_function: "Chamfer Distance"
+    optimizer: "Adam"
+    learning_rate: 0.001
+    batch_size: 32
+    epochs: 100
+    seed: 42
+  outputs:
+    loss_curve: "results/figures/pointnet_ae_loss.png"
+    sample_reconstruction: "results/figures/sample_reconstruction.png"
+    sample_generated: "results/figures/sample_generated.png"
+
+# Partie 2 : Reconstruction de scène réelle (COLMAP + 3D Gaussian Splatting)
+reconstruction_3dgs:
+  dataset:
+    images_dir: "splatting_data/images/"
+    num_images: 9
+    resolutions:
+      - "960x1280"
+      - "1280x960"
+      - "3120x4160"
+  colmap:
+    camera_model: "SIMPLE_PINHOLE"
+    single_camera: 0
+    feature_extractor: "SIFT"
+    matcher: "exhaustive"
+    init_pair: [7, 8]
+    registered_images: 9
+    initial_points_3d: 113
+    reprojection_error_px: 2.20133
+  gaussian_splatting:
+    resolution_downsample_factor: 4   # paramètre -r 4
+    iterations: 3000
+    save_iterations: [3000]
+    loss: "L1 + D-SSIM"
+    cuda_patch: "#include <cstdint> dans rasterizer_impl.h"
+  outputs:
+    point_cloud_ply: "gs_output_3k/point_cloud/iteration_3000/point_cloud.ply"
+    metrics_json: "results/tables/metrics_3k.json"
+    renders_dir: "results/figures/"
+    demo_video: "demo/demo_3dgs_3k.mp4"
